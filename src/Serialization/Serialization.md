@@ -230,3 +230,85 @@ No constructor rule	Needs public no-arg constructor
 | writeReplace | Replace object before write |
 | readResolve  | Replace object after read   |
 
+## Singleton Problem with Serialization
+
+When a Singleton object is serialized and then deserialized, the deserialization process does not invoke the class's private constructor or its controlled instantiation mechanism. Instead, it creates a new object in memory, effectively bypassing the Singleton's control and leading to multiple instances of the class.
+
+### Fix
+```java
+private Object readResolve() {
+    return INSTANCE;
+}
+```
+
+## 14. Deep vs Shallow Serialization
+- Java serialization is deep
+
+- All referenced objects are serialized
+
+❌ If reference is not Serializable:
+```java
+NotSerializableException
+```
+
+## 15. Security Issues
+- Deserialization attacks
+
+- Arbitrary object creation
+
+- Remote code execution risks
+
+### Best Practices
+- Avoid Java serialization in APIs
+
+- Prefer JSON / Protobuf
+
+- Validate deserialized objects
+
+- Use transient where needed
+
+## 16. Real-World Applications
+
+- HTTP session replication
+
+- Distributed caching
+
+- RMI
+
+- Message brokers
+
+- ORM frameworks
+
+## 17. Frequently Asked Interview Questions
+
+- Why Serializable has no methods?
+
+- What happens if serialVersionUID mismatches?
+
+- Are static fields serialized?
+
+- Can transient fields be serialized?
+
+- Parent class not Serializable behavior?
+
+- Serializable vs Externalizable
+
+- How serialization breaks Singleton?
+
+- How to prevent Singleton break?
+
+## 18. One-Line Interview Answers
+
+- Serialization converts object to byte stream
+
+- Serializable is a marker interface
+
+- serialVersionUID ensures compatibility
+
+- Static fields are not serialized
+
+- Transient fields are ignored
+
+- Parent constructor executes if parent isn't serializable
+
+- readResolve protects Singleton
